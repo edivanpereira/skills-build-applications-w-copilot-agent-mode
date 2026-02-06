@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,9 @@ SECRET_KEY = 'django-insecure-(^o_0r1lf1djjl8cz_%gpbw8c%4jme&8&k=5f(nyb8b*nutx*%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if os.environ.get('CODESPACE_NAME'):
+    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
 
 
 # Application definition
@@ -37,12 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'octofit_tracker',
+    'rest_framework',
+    'djongo',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -75,10 +83,23 @@ WSGI_APPLICATION = 'octofit_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'octifit_db' if False else 'octofit_db',
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+            'username': '',
+            'password': '',
+            'authSource': '',
+        }
     }
 }
+
+# CORS settings (development)
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['*']
 
 
 # Password validation
