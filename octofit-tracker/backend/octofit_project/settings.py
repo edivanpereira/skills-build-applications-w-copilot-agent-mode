@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'octofit_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'octifit_db' if False else 'octofit_db',
+        'NAME': 'octofit_db',
         'CLIENT': {
             'host': 'localhost',
             'port': 27017,
