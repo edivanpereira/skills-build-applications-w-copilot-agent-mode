@@ -1,3 +1,4 @@
+# Octofit Tracker models
 from djongo import models
 
 class User(models.Model):
