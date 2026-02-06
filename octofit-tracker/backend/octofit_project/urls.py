@@ -42,6 +42,7 @@ else:
     base_url = "http://localhost:8000"
 
 urlpatterns = [
+    path('', api_root, name='root'),
     path('admin/', admin.site.urls),
     path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
